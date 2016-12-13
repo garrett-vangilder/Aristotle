@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Aristotle.Models;
 using Aristotle.Models.AccountViewModels;
 using Aristotle.Services;
+using Microsoft.AspNetCore.Routing;
 
 namespace Aristotle.Controllers
 {
@@ -117,7 +118,8 @@ namespace Aristotle.Controllers
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", new RouteValueDictionary(
+                             new { controller = "Profile", action = "Index"}));
                 }
                 AddErrors(result);
             }

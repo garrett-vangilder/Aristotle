@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Aristotle.Controllers
 {
-    public class HomeController : Controller
+    public class ProfileController : Controller
     {
         public IActionResult Index()
         {
