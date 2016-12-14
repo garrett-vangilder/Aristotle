@@ -11,7 +11,7 @@ namespace Aristotle.Models
         public int ClassId { get; set; }
 
         [Required]
-        public int ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
         [Required]
         public string Title { get; set; }

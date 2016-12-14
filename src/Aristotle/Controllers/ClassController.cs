@@ -9,6 +9,7 @@ using Aristotle.Data;
 using Aristotle.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing;
 
 namespace Aristotle.Controllers
 {
@@ -33,10 +34,32 @@ namespace Aristotle.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Add()
         {
+            var user = await GetCurrentUserAsync();
+            var model = new AddClassView(context, user);
+            return View(model);
+        }
 
-            return View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Add(AddClassView model)
+        {
+            var user = await GetCurrentUserAsync();
+            var newClass = new Class { Title = model.Title, ApplicationUserId = user.Id, Subject = model.Subject, StartTime = model.StartTime , EndTime = model.EndTime};
+
+            if (ModelState.IsValid && newClass.ApplicationUserId != null)
+            {
+                context.Add(newClass);
+                await context.SaveChangesAsync();
+                return RedirectToAction("Index", new RouteValueDictionary(
+                     new { controller = "Profile", action = "Index"}));
+            }
+
+            return View(model);
         }
 
         public IActionResult Contact()
