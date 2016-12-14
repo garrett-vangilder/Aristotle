@@ -13,12 +13,12 @@ using Microsoft.AspNetCore.Authorization;
 namespace Aristotle.Controllers
 {
     [Authorize]
-    public class ProfileController : Controller
+    public class ClassController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationDbContext context;
 
-        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext ctx)
+        public ClassController(UserManager<ApplicationUser> userManager, ApplicationDbContext ctx)
         {
             _userManager = userManager;
             context = ctx;
@@ -29,17 +29,12 @@ namespace Aristotle.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await GetCurrentUserAsync();
-            List<Class> ClassList = await context.Class.ToListAsync();
-            var model = new ProfileView(context, user);
-            model.Class = ClassList;
-            model.ApplicationUser = user;
-            return View(model);
+
+            return View();
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Add()
         {
-            ViewData["Message"] = "Your application description page.";
 
             return View();
         }

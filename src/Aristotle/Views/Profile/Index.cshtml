@@ -1,1 +1,22 @@
-﻿<div>Hello!</div>
+﻿@model Aristotle.ViewModels.ProfileView
+@using Aristotle.Models;
+@{
+    ViewData["Title"] = "Welcome,";
+}
+
+<h1>@ViewData["Title"] @Model.ApplicationUser.FirstName @Model.ApplicationUser.LastName</h1> 
+<button><a asp-controller="Class" asp-action="Add">Add A Class</a></button>
+
+@if (Model.Class.Count() > 0)
+{
+    @foreach (Class c in Model.Class)
+    {
+        <h3>@c.Title</h3>
+
+    }
+}
+else
+{
+    <div>You need to add a class to use Aristotle.</div>
+}
+
