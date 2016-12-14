@@ -17,6 +17,7 @@ namespace Aristotle.Models
         public string LastName { get; set; }
 
         public ICollection<Class> Class;
+        public ICollection<Student> Student;
 
     }
 }

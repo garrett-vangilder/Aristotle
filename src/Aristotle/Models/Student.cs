@@ -19,8 +19,11 @@ namespace Aristotle.Models
         [Required]
         public int Grade { get; set; }
 
+        [Required]
+        public string ApplicationUserId { get; set; }
+
 
         // Foreign Key Dependencies
-        public ICollection<ClassMember> ClassMember;
+        public ICollection<Student> Students;
     }
 }

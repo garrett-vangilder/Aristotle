@@ -13,12 +13,12 @@ using Microsoft.AspNetCore.Authorization;
 namespace Aristotle.Controllers
 {
     [Authorize]
-    public class ProfileController : Controller
+    public class StudentController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationDbContext context;
 
-        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext ctx)
+        public StudentController(UserManager<ApplicationUser> userManager, ApplicationDbContext ctx)
         {
             _userManager = userManager;
             context = ctx;
@@ -31,7 +31,8 @@ namespace Aristotle.Controllers
         {
             var user = await GetCurrentUserAsync();
             List<Class> ClassList = await context.Class.ToListAsync();
-            foreach (Class c in ClassList) {
+            foreach (Class c in ClassList)
+            {
                 List<ClassMember> cm = await context.ClassMember.Where(d => d.ClassId == c.ClassId).ToListAsync();
                 c.ClassMember = cm;
             }
@@ -41,24 +42,14 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Add()
         {
-            ViewData["Message"] = "Your application description page.";
+            var user = await GetCurrentUserAsync();
+            List<Student> StudentList = await context.Student.Where(s => s.ApplicationUserId == user.Id).ToListAsync();
+            var model = new AddStudentViewModel(context, user);
+            model.Student = StudentList;
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-
-        public IActionResult Error()
-        {
-            return View();
+            return View(model);
         }
     }
 }
