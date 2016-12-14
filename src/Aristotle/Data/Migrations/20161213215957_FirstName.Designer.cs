@@ -8,9 +8,10 @@ using Aristotle.Data;
 namespace Aristotle.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161213215957_FirstName")]
+    partial class FirstName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -69,76 +70,6 @@ namespace Aristotle.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Aristotle.Models.Attendance", b =>
-                {
-                    b.Property<int>("AttendanceId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClassMemberId");
-
-                    b.Property<string>("Comments");
-
-                    b.Property<bool>("CurrentlyPresent");
-
-                    b.HasKey("AttendanceId");
-
-                    b.ToTable("LineItem");
-                });
-
-            modelBuilder.Entity("Aristotle.Models.Class", b =>
-                {
-                    b.Property<int>("ClassId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("EndTime");
-
-                    b.Property<DateTime>("StartTime");
-
-                    b.Property<string>("Subject");
-
-                    b.Property<string>("Title")
-                        .IsRequired();
-
-                    b.HasKey("ClassId");
-
-                    b.ToTable("Class");
-                });
-
-            modelBuilder.Entity("Aristotle.Models.ClassMember", b =>
-                {
-                    b.Property<int>("ClassMemberId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClassId");
-
-                    b.Property<int>("StudentId");
-
-                    b.HasKey("ClassMemberId");
-
-                    b.ToTable("ClassMember");
-                });
-
-            modelBuilder.Entity("Aristotle.Models.Student", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<int>("Grade");
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.HasKey("StudentId");
-
-                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

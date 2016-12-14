@@ -15,6 +15,12 @@ namespace Aristotle.Data
         {
         }
 
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Class> Class { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<ClassMember> ClassMember { get; set; }
+        public DbSet<Attendance> LineItem { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

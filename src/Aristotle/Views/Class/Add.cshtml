@@ -1,0 +1,46 @@
+﻿@model Aristotle.ViewModels.AddClassView
+@using Aristotle.Models;
+
+@ViewData["Title"] = "Add a New Class";
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Add">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Subject" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="StartTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.StartTime, new { type = "time" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EndTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.EndTime, new { type = "time" })
+            </div>
+        </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add New Class" class="btn btn-default" />
+                </div>
+            </div>
+    </div>
+</form>
