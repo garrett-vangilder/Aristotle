@@ -43,6 +43,17 @@ namespace Aristotle.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> AddStudent()
+        {
+            var user = await GetCurrentUserAsync();
+            List<Student> StudentList = await context.Student.Where(s => s.ApplicationUserId == user.Id).ToListAsync();
+            var model = new AddStudentViewModel(context, user);
+            model.Student = StudentList;
+
+            return View(model);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Add([FromRoute]int id)
         {
             var user = await GetCurrentUserAsync();
@@ -50,6 +61,26 @@ namespace Aristotle.Controllers
             var model = new AddStudentViewModel(context, user);
             model.ClassId = id;
             model.Student = StudentList;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Add(AddStudentViewModel model)
+        {
+            var user = await GetCurrentUserAsync();
+            var newStudent = new Student { FirstName = model.FirstName, LastName = model.LastName, Grade = model.Grade, ApplicationUserId = user.Id };
+
+            if (ModelState.IsValid && newStudent.ApplicationUserId != null)
+            {
+                context.Add(newStudent);
+                await context.SaveChangesAsync();
+
+                return RedirectToAction("Index", new RouteValueDictionary(
+                     new { controller = "Profile", action = "Index" }));
+            }
 
             return View(model);
         }
