@@ -19,7 +19,7 @@ namespace Aristotle.Data
         public DbSet<Class> Class { get; set; }
         public DbSet<Student> Student { get; set; }
         public DbSet<ClassMember> ClassMember { get; set; }
-        public DbSet<Attendance> LineItem { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

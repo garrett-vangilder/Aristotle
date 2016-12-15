@@ -14,8 +14,10 @@ namespace Aristotle.Models
         [Required]
         public int ClassMemberId { get; set; }
 
+        [Required]
         public bool CurrentlyPresent { get; set; }
 
-        public string Comments { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
     }
 }

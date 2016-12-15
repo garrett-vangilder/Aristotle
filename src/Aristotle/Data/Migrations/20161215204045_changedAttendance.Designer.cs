@@ -8,9 +8,10 @@ using Aristotle.Data;
 namespace Aristotle.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161215204045_changedAttendance")]
+    partial class changedAttendance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -84,7 +85,7 @@ namespace Aristotle.Data.Migrations
 
                     b.HasKey("AttendanceId");
 
-                    b.ToTable("Attendance");
+                    b.ToTable("LineItem");
                 });
 
             modelBuilder.Entity("Aristotle.Models.Class", b =>

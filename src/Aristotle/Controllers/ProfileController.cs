@@ -30,18 +30,32 @@ namespace Aristotle.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            List<Class> ClassList = await context.Class.Where(c => c.ApplicationUserId == user.Id).ToListAsync();
             var model = new ProfileView(context, user);
+            var dateAndTime = DateTime.Now;
+            var today = dateAndTime.Date;
+
+            List<Class> ClassList = await context.Class.Where(c => c.ApplicationUserId == user.Id).ToListAsync();
             List<Student> s = new List<Student>();
             List<ClassMember> ListOfClassMembers = new List<ClassMember>();
+            List<Attendance> ListOfAttendance = new List<Attendance>();
 
             foreach (Class c in ClassList) {
                 List<ClassMember> cm = await context.ClassMember.Where(d => d.ClassId == c.ClassId).ToListAsync();
                 foreach (ClassMember LocalClassMember in cm)
                 {
-                        Student student = await context.Student.Where(a => a.StudentId == LocalClassMember.StudentId).SingleOrDefaultAsync();
+
+                    Student student = await context.Student.Where(LocalStudent => LocalStudent.StudentId == LocalClassMember.StudentId).SingleOrDefaultAsync();
                     s.Add(student);
                     ListOfClassMembers.Add(LocalClassMember);
+
+                    Attendance a = await context.Attendance.Where(b => b.AttendanceId == LocalClassMember.ClassMemberId && b.Date == today).SingleOrDefaultAsync();
+                    if (a == null)
+                    {
+                        Attendance attendance = new Attendance { ClassMemberId = LocalClassMember.ClassMemberId, CurrentlyPresent = true, Date = today };
+                        context.Add(attendance);
+                    }
+                    await context.SaveChangesAsync();
+             
                 }
             }
             model.ClassMember = ListOfClassMembers;
@@ -51,19 +65,6 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
 
 
         public IActionResult Error()
