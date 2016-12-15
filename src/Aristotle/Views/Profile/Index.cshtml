@@ -3,32 +3,78 @@
 @{
     ViewData["Title"] = "Welcome,";
 }
-
-<h1>@ViewData["Title"] @Model.ApplicationUser.FirstName @Model.ApplicationUser.LastName</h1> 
-<button><a asp-controller="Class" asp-action="Add">Add A Class</a></button>
-
-@if (Model.Class.Count() > 0)
-{
-    @foreach (Class c in Model.Class)
+<div class="container">
+        <h1 class="profileTitle">@ViewData["Title"] @Model.ApplicationUser.FirstName @Model.ApplicationUser.LastName <a asp-controller="Class" asp-action="Add"><button class="profileButton btn btn-info inline-block">Add a Class</button></a></h1>
+       
+    @if (Model.Class.Count() > 0)
     {
-        <span> <h3>@c.Title</h3> <button><a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId" >Add A Classmember to @c.Title</a></button></span>
-        @if (c.ClassMember.Count() > 0)
+        @foreach (Class c in Model.Class)
         {
-            @foreach (ClassMember cm in c.ClassMember)
+            <h3 class="">
+                @c.Title 
+                <a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId"><button class="profileButton btn btn-info">Add a Student</button></a>
+                <a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId"><button class="profileButton btn btn-info">Save</button></a>
+ 
+            </h3>
+            @if (Model.StudentList.Count() > 0 && Model.ClassMember.Count() > 0)
             {
-                <p>@cm.StudentId</p>
+                <div class="container">
+                    <table class="table table-striped table-bordered" >
+                        <thead>
+                            <tr>
+                                <td colspan="4" class="text-center">@DateTime.Today.DayOfWeek</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>Last Name</td>
+                                <td>First Name</td>
+                                <td>Grade</td>
+                                <td>Present</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (ClassMember cm in Model.ClassMember)
+                        {
+                            @if (cm.ClassId == c.ClassId)
+                            {
+                                @foreach (Student s in Model.StudentList)
+                                {
+                                    @if (s.StudentId == cm.StudentId)
+                                    {
+                                        <tr class="text-center">
+                                            <td>@s.LastName</td>
+                                            <td>@s.FirstName</td>
+                                            <td>@s.Grade</td>
+                                            <td class="text-center"><input type="checkbox" /></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-danger">Add a Student to begin data collection</td>
+                                </tr>
+                                break;
+                            }
+                        }
+                    </tbody>
+                    </table>
+                </div>
             }
-        }
-        else
-        { 
-            <p>Add a Classmember</p>
-        }
+            else
+            { 
+                <h5 class="text-danger text-center">To Collect Data, First Add a Student to a Class</h5>
+            }
 
 
+
+        }
     }
-}
-else
-{
-    <div>You need to add a class to use Aristotle.</div>
-}
+    else
+    {
+        <h3 class="col-sm-12">You need to add a class to use Aristotle.</h3>
+    }
+
+</div>
 

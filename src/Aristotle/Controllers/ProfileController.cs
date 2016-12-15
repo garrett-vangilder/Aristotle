@@ -30,14 +30,24 @@ namespace Aristotle.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
-            List<Class> ClassList = await context.Class.ToListAsync();
+            List<Class> ClassList = await context.Class.Where(c => c.ApplicationUserId == user.Id).ToListAsync();
+            var model = new ProfileView(context, user);
+            List<Student> s = new List<Student>();
+            List<ClassMember> ListOfClassMembers = new List<ClassMember>();
+
             foreach (Class c in ClassList) {
                 List<ClassMember> cm = await context.ClassMember.Where(d => d.ClassId == c.ClassId).ToListAsync();
-                c.ClassMember = cm;
+                foreach (ClassMember LocalClassMember in cm)
+                {
+                        Student student = await context.Student.Where(a => a.StudentId == LocalClassMember.StudentId).SingleOrDefaultAsync();
+                    s.Add(student);
+                    ListOfClassMembers.Add(LocalClassMember);
+                }
             }
-            var model = new ProfileView(context, user);
+            model.ClassMember = ListOfClassMembers;
             model.Class = ClassList;
             model.ApplicationUser = user;
+            model.StudentList = s;
             return View(model);
         }
 

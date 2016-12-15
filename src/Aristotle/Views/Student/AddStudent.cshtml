@@ -1,1 +1,47 @@
-﻿<p>Works!</p>
+﻿@model Aristotle.ViewModels.AddStudentViewModel
+@using Aristotle.Models;
+
+@{
+    ViewData["Title"] = "Add a New Student";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="AddStudent" >
+    @foreach (Student student in Model.Student)
+    {
+        <p>@student.LastName</p>
+    }
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Grade" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input type="number" min="9" max="12" asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add New Student" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>

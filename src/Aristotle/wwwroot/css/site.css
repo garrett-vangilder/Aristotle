@@ -48,3 +48,8 @@ textarea {
     display: none
   }
 }
+
+.profileButton,
+.profileTitle {
+    display: inline-block;
+}

@@ -53,6 +53,7 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Add([FromRoute]int id)
         {
@@ -68,7 +69,7 @@ namespace Aristotle.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Add(AddStudentViewModel model)
+        public async Task<IActionResult> AddStudent(AddStudentViewModel model)
         {
             var user = await GetCurrentUserAsync();
             var newStudent = new Student { FirstName = model.FirstName, LastName = model.LastName, Grade = model.Grade, ApplicationUserId = user.Id };

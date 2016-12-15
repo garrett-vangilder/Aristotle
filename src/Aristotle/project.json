@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-Aristotle-490e184c-b3d1-4224-90a8-c74feafb5bc2",
 
   "dependencies": {
@@ -41,10 +41,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Mvc.Core": "1.0.1"
   },
 
   "tools": {
