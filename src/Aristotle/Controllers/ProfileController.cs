@@ -49,15 +49,24 @@ namespace Aristotle.Controllers
                     ListOfClassMembers.Add(LocalClassMember);
 
                     Attendance a = await context.Attendance.Where(b => b.ClassMemberId == LocalClassMember.ClassMemberId && b.Date == today).SingleOrDefaultAsync();
+
                     if (a == null)
                     {
                         Attendance attendance = new Attendance { ClassMemberId = LocalClassMember.ClassMemberId, CurrentlyPresent = true, Date = today };
                         context.Add(attendance);
+                        await context.SaveChangesAsync();
+                        ListOfAttendance.Add(attendance);
                     }
-                    await context.SaveChangesAsync();
-             
+                    else
+                    {
+                        ListOfAttendance.Add(a);
+                    }
+
+
                 }
             }
+
+            model.Attendance = ListOfAttendance;
             model.ClassMember = ListOfClassMembers;
             model.Class = ClassList;
             model.ApplicationUser = user;

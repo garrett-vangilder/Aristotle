@@ -10,10 +10,11 @@
     {
         @foreach (Class c in Model.Class)
         {
+            <form>
             <h3 class="">
                 @c.Title 
                 <a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId"><button class="profileButton btn btn-info">Add a Student</button></a>
-                <a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId"><button class="profileButton btn btn-info">Save</button></a>
+                <a asp-controller="Class" asp-action="Update" asp-route-id="@c.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
  
             </h3>
             @if (Model.StudentList.Count() > 0 && Model.ClassMember.Count() > 0)
@@ -45,7 +46,17 @@
                                             <td>@s.LastName</td>
                                             <td>@s.FirstName</td>
                                             <td>@s.Grade</td>
-                                            <td class="text-center"><input type="checkbox" /></td>
+                                            @foreach (Attendance att in Model.Attendance)
+                                            {
+                                                @if (att.ClassMemberId == cm.ClassMemberId && att.CurrentlyPresent)
+                                                {
+                                                    <td class="text-center"><input type="checkbox" /></td>
+                                                }
+                                                else if(att.ClassMemberId == cm.ClassMemberId)
+                                                {
+                                                        <td class="text-center"><input type="checkbox" checked /></td>
+                                                }
+                                            }
                                         </tr>
                                     }
                                 }
@@ -62,13 +73,12 @@
                     </table>
                 </div>
             }
+          
             else
             { 
                 <h5 class="text-danger text-center">To Collect Data, First Add a Student to a Class</h5>
             }
-
-
-
+                </form>
         }
     }
     else
