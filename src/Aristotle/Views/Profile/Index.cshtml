@@ -11,7 +11,7 @@
 {
     @foreach (Class c in Model.Class)
     {
-        <span> <h3>@c.Title</h3> <button><a asp-controller="Student" asp-action="Add">Add A Classmember to @c.Title</a></button></span>
+        <span> <h3>@c.Title</h3> <button><a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId" >Add A Classmember to @c.Title</a></button></span>
         @if (c.ClassMember.Count() > 0)
         {
             @foreach (ClassMember cm in c.ClassMember)

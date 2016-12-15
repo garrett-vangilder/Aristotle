@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Aristotle.Models;
+using Aristotle.Data;
+using Microsoft.AspNetCore.Routing;
 
 namespace Aristotle.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly UserManager<ApplicationUser> _userManager;
+        private ApplicationDbContext context;
+
+        public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext ctx)
         {
-            return View();
+            _userManager = userManager;
+            context = ctx;
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-            return View();
-        }
-
-        public IActionResult Contact()
+        public async Task<IActionResult> Index()
         {
-            ViewData["Message"] = "Your contact page.";
+            var user = await GetCurrentUserAsync();
+
+            if (user != null)
+            {
+                return RedirectToAction("Index", new RouteValueDictionary(
+                         new { controller = "Profile", action = "Index" }));
+            }
 
             return View();
         }

@@ -9,6 +9,7 @@ using Aristotle.Data;
 using Aristotle.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Routing;
 
 namespace Aristotle.Controllers
 {
@@ -26,7 +27,6 @@ namespace Aristotle.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
-
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
@@ -42,14 +42,44 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Add()
+        [HttpGet]
+        public async Task<IActionResult> Add([FromRoute]int id)
         {
             var user = await GetCurrentUserAsync();
             List<Student> StudentList = await context.Student.Where(s => s.ApplicationUserId == user.Id).ToListAsync();
             var model = new AddStudentViewModel(context, user);
+            model.ClassId = id;
             model.Student = StudentList;
 
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Add(AddStudentViewModel model, [FromRoute]int id)
+        {
+            var user = await GetCurrentUserAsync();
+            var newStudent = new Student { FirstName = model.FirstName, LastName = model.LastName, Grade = model.Grade, ApplicationUserId = user.Id };
+
+            if (ModelState.IsValid && newStudent.ApplicationUserId != null)
+            {
+                context.Add(newStudent);
+                await context.SaveChangesAsync();
+
+                Student student = await context.Student.Where(s => s.FirstName == newStudent.FirstName && s.LastName == newStudent.LastName && s.Grade == newStudent.Grade && s.ApplicationUserId == newStudent.ApplicationUserId).SingleOrDefaultAsync();
+
+                ClassMember classMember = new ClassMember { StudentId = student.StudentId, ClassId = id};
+                context.Add(classMember);
+                await context.SaveChangesAsync();
+
+                return RedirectToAction("Index", new RouteValueDictionary(
+                     new { controller = "Profile", action = "Index" }));
+            }
+
+            return View(model);
+        }
+
+
     }
 }

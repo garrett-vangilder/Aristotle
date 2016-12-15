@@ -15,6 +15,7 @@ namespace Aristotle.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Grade { get; set; }
+        public int ClassId { get; set; }
 
 
         public AddStudentViewModel(ApplicationDbContext ctx, ApplicationUser user) : base(ctx, user) { }
