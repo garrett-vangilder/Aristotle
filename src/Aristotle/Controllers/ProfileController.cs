@@ -48,7 +48,7 @@ namespace Aristotle.Controllers
                     s.Add(student);
                     ListOfClassMembers.Add(LocalClassMember);
 
-                    Attendance a = await context.Attendance.Where(b => b.AttendanceId == LocalClassMember.ClassMemberId && b.Date == today).SingleOrDefaultAsync();
+                    Attendance a = await context.Attendance.Where(b => b.ClassMemberId == LocalClassMember.ClassMemberId && b.Date == today).SingleOrDefaultAsync();
                     if (a == null)
                     {
                         Attendance attendance = new Attendance { ClassMemberId = LocalClassMember.ClassMemberId, CurrentlyPresent = true, Date = today };
