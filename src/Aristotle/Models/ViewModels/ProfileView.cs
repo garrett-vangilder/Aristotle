@@ -12,6 +12,7 @@ namespace Aristotle.ViewModels
         public ApplicationUser ApplicationUser { get; set; }
         public IEnumerable<Class> Class { get; set; }
         public IEnumerable<ClassMember> ClassMember { get; set; }
+        public IEnumerable<Student> StudentList { get; set; }
 
         public ProfileView(ApplicationDbContext ctx, ApplicationUser user) : base(ctx, user) { }
         public ProfileView() { }
