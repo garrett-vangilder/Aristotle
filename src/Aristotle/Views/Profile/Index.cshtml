@@ -15,12 +15,11 @@
         @foreach (Class c in Model.Class)
         {
             <h3 class="">
-                @c.Title
+                <a asp-controller="class" asp-action="detail" asp-route-id="@c.ClassId"> @c.Title </a>
                 <a asp-controller="Student" asp-action="Add" asp-route-id="@c.ClassId">
                     <button class="profileButton btn btn-info">Add a Student</button>
                 </a>
             </h3>
-            <form asp-action="Update" asp-controller="Attendance">
 
                 @if (Model.StudentList.Count() > 0 && Model.ClassMember.Count() > 0)
                 {
@@ -29,7 +28,7 @@
                             <thead>
                                 <tr>
                                     <td colspan="4" class="text-center">
-                                        @DateTime.Today.DayOfWeek <a asp-controller="Attendance" asp-action="Update" asp-route-id="@c.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
+                                        @DateTime.Today.DayOfWeek
                                 </td>
                             </tr>
                             <tr class="text-center">
@@ -58,10 +57,18 @@
                                                 {
                                                     @if (Model.Attendance[i].ClassMemberId == cm.ClassMemberId)
                                                     {
-                                                        <td>
+                                                        @if (Model.Attendance[i].CurrentlyAbsent)
+                                                        {
+                                                            <td>X</td>
+                                                        }
+                                                        else
+                                                        { 
+                                                            <td></td>
+                                                        }
+                                                        @*<td>
                                                             @Html.HiddenFor(x => x.Attendance[i].AttendanceId)
                                                             <input type="checkbox" asp-for="Attendance[i].CurrentlyAbsent" class="form-control" />
-                                                        </td>
+                                                        </td>*@
                                                     }
                                                 }
 
@@ -86,7 +93,6 @@
                 {
                     <h5 class="text-danger text-center">To Collect Data, First Add a Student to a Class</h5>
                 }
-            </form>
         }
     }
     else
