@@ -52,7 +52,7 @@ namespace Aristotle.Controllers
 
                     if (a == null)
                     {
-                        Attendance attendance = new Attendance { ClassMemberId = LocalClassMember.ClassMemberId, CurrentlyPresent = true, Date = today };
+                        Attendance attendance = new Attendance { ClassMemberId = LocalClassMember.ClassMemberId, CurrentlyAbsent = false, Date = today };
                         context.Add(attendance);
                         await context.SaveChangesAsync();
                         ListOfAttendance.Add(attendance);
