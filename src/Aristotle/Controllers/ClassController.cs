@@ -62,11 +62,41 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
 
-            return View();
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var model = new DetailClassView();
+            var user = await GetCurrentUserAsync();
+            var dateAndTime = DateTime.Now;
+            var today = dateAndTime.Date;
+            string Title = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Title;
+            string Subject = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Subject;
+            List<Attendance> AttendanceList = new List<Attendance>();
+            List<Attendance> AllAttendanceEverPerClass = new List<Attendance>();
+            List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
+            List<Student> AllStudents = await context.Student.ToListAsync();
+
+            List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).ToListAsync();
+
+            foreach (ClassMember ClassMember in ClassMemberList)
+            {
+                Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == today).SingleOrDefaultAsync();
+                List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
+
+                AttendanceList.Add(Attendance);
+                AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
+            }
+            model.Attendance = AttendanceList;
+            model.ClassMember = ClassMemberList;
+            model.AverageAttendancePercentage = 100;
+            model.Student = AllStudents;
+            model.Title = Title;
+            model.ClassId = id;
+            model.Subject = Subject;
+
+
+            return View(model);
         }
 
 

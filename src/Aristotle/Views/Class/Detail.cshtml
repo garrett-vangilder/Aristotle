@@ -1,0 +1,55 @@
+﻿@model Aristotle.ViewModels.DetailClassView
+@using Aristotle.Models;
+
+<h3>@Model.Title -> @Model.Subject</h3>
+
+<div class="container">
+    <form asp-action="Update" asp-controller="Attendance">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <td colspan="4" class="text-center">
+                        @DateTime.Today.DayOfWeek <a asp-controller="Attendance" asp-action="Update" asp-route-id="@Model.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
+                    </td>
+                </tr>
+                <tr class="text-center">
+                    <td>Last Name</td>
+                    <td>First Name</td>
+                    <td>Grade</td>
+                    <td>Absent</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (ClassMember cm in Model.ClassMember)
+                {
+
+                    @foreach (Student s in Model.Student)
+                    {
+                        @if (s.StudentId == cm.StudentId)
+                        {
+                            <tr class="text-center">
+                                <td>@s.LastName</td>
+                                <td>@s.FirstName</td>
+                                <td>@s.Grade</td>
+
+                                @for (int i = 0; i < Model.Attendance.Count; i++)
+                                {
+                                    @if (Model.Attendance[i].ClassMemberId == cm.ClassMemberId)
+                                    {
+                                        <td>
+                                            @Html.HiddenFor(x => x.Attendance[i].AttendanceId)
+                                            <input type="checkbox" asp-for="Attendance[i].CurrentlyAbsent" class="form-control" />
+                                       </td>
+                                    }
+                                }
+
+                            </tr>
+                        }
+                    }
+                }
+
+                </tbody>
+            </table>
+        </form>
+    </div>
