@@ -95,7 +95,6 @@ namespace Aristotle.Controllers
             model.ClassId = id;
             model.Subject = Subject;
 
-
             return View(model);
         }
 
@@ -117,6 +116,10 @@ namespace Aristotle.Controllers
             foreach (ClassMember ClassMember in ClassMemberList)
             {
                 Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == today).SingleOrDefaultAsync();
+                if (Attendance == null)
+                {
+                   Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = today };
+                }
                 List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
 
                 AttendanceList.Add(Attendance);
