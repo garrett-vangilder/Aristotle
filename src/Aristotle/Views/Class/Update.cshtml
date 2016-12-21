@@ -9,13 +9,13 @@
             <thead>
                 <tr>
                     <td>
-                        <a asp-controller="Class" asp-action="Update" asp-route-dayAway="1" asp-route-id="@Model.ClassId"> << @DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek</a>
+                        <a asp-controller="Class" asp-action="Update" asp-route-dayAway="@Model.NewDayDifferenceFromToday" asp-route-id="@Model.ClassId"> << @DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek</a>
                     </td>
                     <td colspan="2" class="text-center">
 
                         @Model.DesiredDate.DayOfWeek <a asp-controller="Attendance" asp-action="Update" asp-route-id="@Model.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
                     </td>
-                    <td> <a asp-controller="Class" asp-action="Update" asp-route-dayAway="-1" asp-route-id="@Model.ClassId">  @DateTime.Today.AddDays(-1).DayOfWeek >> </a></td>
+                    <td> <a asp-controller="Class" asp-action="Update" asp-route-dayAway="@Model.NewDayDifferenceFromToday - 2" asp-route-id="@Model.ClassId">  @DateTime.Today.AddDays(Model.NewDayDifferenceFromToday - 2).DayOfWeek >> </a></td>
 
                 </tr>
                 <tr class="text-center">

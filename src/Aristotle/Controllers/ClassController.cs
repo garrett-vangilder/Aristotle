@@ -123,6 +123,7 @@ namespace Aristotle.Controllers
                 AttendanceList.Add(Attendance);
                 AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
             }
+
             model.NewDayDifferenceFromToday = dayAway + 1;
             model.PreviousDayDifferenceFromToday = dayAway - 1;
             model.Attendance = AttendanceList;
@@ -133,7 +134,6 @@ namespace Aristotle.Controllers
             model.ClassId = id;
             model.Subject = Subject;
             model.DesiredDate = DesiredDate;
-
 
             return View(model);
         }
