@@ -20,6 +20,9 @@ namespace Aristotle.ViewModels
         public int OverallAttendancePercentage { get; set; }
         public int CurrentAttendancePercentage { get; set; }
         public int AverageAttendancePercentage { get; set; }
+        public DateTime DesiredDate { get; set; }
+        public int NewDayDifferenceFromToday { get; set; }
+        public int PreviousDayDifferenceFromToday { get; set; }
 
 
         public DetailClassView(ApplicationDbContext ctx, ApplicationUser user) : base(ctx, user) { }

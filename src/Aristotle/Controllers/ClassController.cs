@@ -95,7 +95,6 @@ namespace Aristotle.Controllers
             model.ClassId = id;
             model.Subject = Subject;
 
-
             return View(model);
         }
 
@@ -104,24 +103,29 @@ namespace Aristotle.Controllers
             var model = new DetailClassView();
             var user = await GetCurrentUserAsync();
             var dateAndTime = DateTime.Now.AddDays(dayAway);
-            var today = dateAndTime.Date;
+            var DesiredDate = dateAndTime.Date;
             string Title = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Title;
             string Subject = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Subject;
             List<Attendance> AttendanceList = new List<Attendance>();
             List<Attendance> AllAttendanceEverPerClass = new List<Attendance>();
             List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
             List<Student> AllStudents = await context.Student.ToListAsync();
-
+           
             List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).ToListAsync();
-
             foreach (ClassMember ClassMember in ClassMemberList)
             {
-                Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == today).SingleOrDefaultAsync();
+                Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == DesiredDate).SingleOrDefaultAsync();
+                if (Attendance == null)
+                {
+                   Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = DesiredDate };
+                }
                 List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
-
                 AttendanceList.Add(Attendance);
                 AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
             }
+
+            model.NewDayDifferenceFromToday = dayAway + 1;
+            model.PreviousDayDifferenceFromToday = dayAway - 1;
             model.Attendance = AttendanceList;
             model.ClassMember = ClassMemberList;
             model.AverageAttendancePercentage = 100;
@@ -129,7 +133,7 @@ namespace Aristotle.Controllers
             model.Title = Title;
             model.ClassId = id;
             model.Subject = Subject;
-
+            model.DesiredDate = DesiredDate;
 
             return View(model);
         }
