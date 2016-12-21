@@ -100,10 +100,11 @@ namespace Aristotle.Controllers
 
         public async Task<IActionResult> Update(int id, int dayAway)
         {
+
             var model = new DetailClassView();
             var user = await GetCurrentUserAsync();
             var dateAndTime = DateTime.Now.AddDays(dayAway);
-            var today = dateAndTime.Date;
+            var DesiredDate = dateAndTime.Date;
             string Title = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Title;
             string Subject = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Subject;
             List<Attendance> AttendanceList = new List<Attendance>();
@@ -115,10 +116,10 @@ namespace Aristotle.Controllers
 
             foreach (ClassMember ClassMember in ClassMemberList)
             {
-                Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == today).SingleOrDefaultAsync();
+                Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == DesiredDate).SingleOrDefaultAsync();
                 if (Attendance == null)
                 {
-                   Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = today };
+                   Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = DesiredDate };
                 }
                 List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
 
@@ -132,6 +133,7 @@ namespace Aristotle.Controllers
             model.Title = Title;
             model.ClassId = id;
             model.Subject = Subject;
+            model.DesiredDate = DesiredDate;
 
 
             return View(model);

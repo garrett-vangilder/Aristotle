@@ -13,7 +13,7 @@
                     </td>
                     <td colspan="2" class="text-center">
 
-                        @DateTime.Today.DayOfWeek <a asp-controller="Attendance" asp-action="Update" asp-route-id="@Model.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
+                        @Model.DesiredDate.DayOfWeek <a asp-controller="Attendance" asp-action="Update" asp-route-id="@Model.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
                     </td>
                     <td> <a asp-controller="Class" asp-action="Update" asp-route-dayAway="-1" asp-route-id="@Model.ClassId">  @DateTime.Today.AddDays(-1).DayOfWeek >> </a></td>
 
