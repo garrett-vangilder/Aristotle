@@ -9,7 +9,7 @@
             <thead>
                 <tr>
                     <td>
-                        <a asp-controller="Class" asp-action="Update" asp-route-dayAway="1" asp-route-id="@Model.ClassId"> << @DateTime.Today.AddDays(1).DayOfWeek</a>
+                        <a asp-controller="Class" asp-action="Update" asp-route-dayAway="1" asp-route-id="@Model.ClassId"> << @DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek</a>
                     </td>
                     <td colspan="2" class="text-center">
 

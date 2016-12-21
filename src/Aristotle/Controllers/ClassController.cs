@@ -100,7 +100,6 @@ namespace Aristotle.Controllers
 
         public async Task<IActionResult> Update(int id, int dayAway)
         {
-
             var model = new DetailClassView();
             var user = await GetCurrentUserAsync();
             var dateAndTime = DateTime.Now.AddDays(dayAway);
@@ -111,9 +110,8 @@ namespace Aristotle.Controllers
             List<Attendance> AllAttendanceEverPerClass = new List<Attendance>();
             List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
             List<Student> AllStudents = await context.Student.ToListAsync();
-
+           
             List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).ToListAsync();
-
             foreach (ClassMember ClassMember in ClassMemberList)
             {
                 Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == DesiredDate).SingleOrDefaultAsync();
@@ -122,10 +120,11 @@ namespace Aristotle.Controllers
                    Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = DesiredDate };
                 }
                 List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
-
                 AttendanceList.Add(Attendance);
                 AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
             }
+            model.NewDayDifferenceFromToday = dayAway + 1;
+            model.PreviousDayDifferenceFromToday = dayAway - 1;
             model.Attendance = AttendanceList;
             model.ClassMember = ClassMemberList;
             model.AverageAttendancePercentage = 100;
