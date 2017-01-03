@@ -88,9 +88,12 @@ namespace Aristotle.Controllers
                 AttendanceList.Add(Attendance);
                 AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
             }
+
             model.Attendance = AttendanceList;
             model.ClassMember = ClassMemberList;
-            model.AverageAttendancePercentage = Math.Ceiling(Utility.FindAverageAttendanceBySchool(AllAttendanceEver, today));
+            model.DailyAverageAttendance = Math.Round(Utility.FindAverageAttendanceByClassForToday(AllAttendanceEver, ClassMemberList, today));
+            model.ClassAverageAttendancePercentage = Math.Round(Utility.FindAverageAttendanceByClass(AllAttendanceEver, ClassMemberList, today));
+            model.AverageAttendancePercentage = Math.Round(Utility.FindAverageAttendanceBySchool(AllAttendanceEver, today));
             model.Student = AllStudents;
             model.Title = Title;
             model.ClassId = id;

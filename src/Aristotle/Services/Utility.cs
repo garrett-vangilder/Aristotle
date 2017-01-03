@@ -13,11 +13,52 @@ namespace Aristotle.Services
         {
             List<Attendance> CurrentAttendance = AllAttendance.Where(a => a.Date <= today).ToList();
             List<Attendance> AbsentStudents = CurrentAttendance.Where(a => a.CurrentlyAbsent == true).ToList();
+            double numerator = Convert.ToDouble(CurrentAttendance.Count()) - Convert.ToDouble(AbsentStudents.Count());
+            double denominator = Convert.ToDouble(CurrentAttendance.Count());
 
-            double baseNumber = Convert.ToDouble(CurrentAttendance.Count()) / 100;
+            return (numerator / denominator) * 100;
+        }
 
+        public static double FindAverageAttendanceByClass(List<Attendance> AllAttendance, List<ClassMember> ClassMemberList, DateTime today)
+        {
+            List<Attendance> ClassMemberAttendance = new List<Attendance>();
+            foreach (ClassMember ClassMember in ClassMemberList)
+            {
+                foreach (Attendance attendance in AllAttendance)
+                {
+                    if (attendance.ClassMemberId == ClassMember.ClassMemberId)
+                    {
+                        ClassMemberAttendance.Add(attendance);
+                    }
+                }
+            }
+            List<Attendance> CurrentAttendance = ClassMemberAttendance.Where(a => a.Date <= today).ToList();
+            List<Attendance> AbsentStudents = CurrentAttendance.Where(a => a.CurrentlyAbsent == true).ToList();
+            double numerator = Convert.ToDouble(CurrentAttendance.Count()) - Convert.ToDouble(AbsentStudents.Count());
+            double denominator = Convert.ToDouble(CurrentAttendance.Count());
 
-            return Math.Ceiling((Convert.ToDouble(CurrentAttendance.Count()) - (Convert.ToDouble(AbsentStudents.Count()) / Convert.ToDouble(CurrentAttendance.Count()))));
+            return (numerator / denominator) * 100;
+        }
+
+        public static double FindAverageAttendanceByClassForToday(List<Attendance> AllAttendance, List<ClassMember> ClassMemberList, DateTime today)
+        {
+            List<Attendance> ClassMemberAttendance = new List<Attendance>();
+            foreach (ClassMember ClassMember in ClassMemberList)
+            {
+                foreach (Attendance attendance in AllAttendance)
+                {
+                    if (attendance.ClassMemberId == ClassMember.ClassMemberId)
+                    {
+                        ClassMemberAttendance.Add(attendance);
+                    }
+                }
+            }
+            List<Attendance> CurrentAttendance = ClassMemberAttendance.Where(a => a.Date == today).ToList();
+            List<Attendance> AbsentStudents = CurrentAttendance.Where(a => a.CurrentlyAbsent == true).ToList();
+            double numerator = Convert.ToDouble(CurrentAttendance.Count()) - Convert.ToDouble(AbsentStudents.Count());
+            double denominator = Convert.ToDouble(CurrentAttendance.Count());
+
+            return (numerator / denominator) * 100;
         }
     }
 }
