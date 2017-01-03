@@ -10,6 +10,7 @@ using Aristotle.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
+using Aristotle.Services;
 
 namespace Aristotle.Controllers
 {
@@ -89,7 +90,7 @@ namespace Aristotle.Controllers
             }
             model.Attendance = AttendanceList;
             model.ClassMember = ClassMemberList;
-            model.AverageAttendancePercentage = 100;
+            model.AverageAttendancePercentage = Math.Ceiling(Utility.FindAverageAttendanceBySchool(AllAttendanceEver, today));
             model.Student = AllStudents;
             model.Title = Title;
             model.ClassId = id;
