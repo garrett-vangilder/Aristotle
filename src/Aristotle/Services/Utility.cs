@@ -13,11 +13,10 @@ namespace Aristotle.Services
         {
             List<Attendance> CurrentAttendance = AllAttendance.Where(a => a.Date <= today).ToList();
             List<Attendance> AbsentStudents = CurrentAttendance.Where(a => a.CurrentlyAbsent == true).ToList();
+            double numerator = Convert.ToDouble(CurrentAttendance.Count()) - Convert.ToDouble(AbsentStudents.Count());
+            double denominator = Convert.ToDouble(CurrentAttendance.Count());
 
-            double baseNumber = Convert.ToDouble(CurrentAttendance.Count()) / 100;
-
-
-            return Math.Ceiling((Convert.ToDouble(CurrentAttendance.Count()) - (Convert.ToDouble(AbsentStudents.Count()) / Convert.ToDouble(CurrentAttendance.Count()))));
+            return (numerator / denominator) * 100;
         }
     }
 }
