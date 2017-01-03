@@ -90,7 +90,7 @@ namespace Aristotle.Controllers
             }
             model.Attendance = AttendanceList;
             model.ClassMember = ClassMemberList;
-            model.AverageAttendancePercentage = Utility.FindAverageAttendanceBySchool(AllAttendanceEver);
+            model.AverageAttendancePercentage = Math.Ceiling(Utility.FindAverageAttendanceBySchool(AllAttendanceEver, today));
             model.Student = AllStudents;
             model.Title = Title;
             model.ClassId = id;
