@@ -4,28 +4,75 @@
 <h3>@Model.Title -> @Model.Subject</h3>
 
 <div class="container">
-    <table class="table table-striped table-bordered">
-        <thead class="text-center">
-            <tr class="text-center">
-                <td></td>
-                <td>Current Stats</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Today's Attendance by Percentage</td>
-                <td>Average Percentage for Class</td>
-                <td>Average Attendance for School</td>
-            </tr>
-        </thead>
-        <tbody class="text-center">
-            <tr>
-                <td>@Model.DailyAverageAttendance %</td>
-                <td>@Model.ClassAverageAttendancePercentage %</td>
-                <td>@Model.AverageAttendancePercentage %</td>
+    <div class="row">
+        <div class="col-lg-6">
+            <table class="table table-striped table-bordered col-lg-6">
+                <thead class="text-center">
+                    <tr class="text-center">
+                        <td>Best Attendance for Class</td>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Average Attendance</td>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr>
+                        <td>@Model.DailyAverageAttendance %</td>
+                        <td>@Model.ClassAverageAttendancePercentage %</td>
+                        <td>@Model.AverageAttendancePercentage %</td>
 
-            </tr>
-        </tbody>
-    </table>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped table-bordered col-lg-6">
+                <thead class="text-center">
+                    <tr class="text-center">
+                        <td>Needs Improvement</td>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Average Attendance</td>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr>
+                        <td>@Model.DailyAverageAttendance %</td>
+                        <td>@Model.ClassAverageAttendancePercentage %</td>
+                        <td>@Model.AverageAttendancePercentage %</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-6">
+            <table class="table table-striped table-bordered">
+                <thead class="text-center">
+                    <tr class="text-center">
+                        <td></td>
+                        <td>Current Stats</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Today's Attendance by Percentage</td>
+                        <td>Average Percentage for Class</td>
+                        <td>Average Attendance for School</td>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr>
+                        <td>@Model.DailyAverageAttendance %</td>
+                        <td>@Model.ClassAverageAttendancePercentage %</td>
+                        <td>@Model.AverageAttendancePercentage %</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <div class="container">

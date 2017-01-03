@@ -67,17 +67,19 @@ namespace Aristotle.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
+            //Establish user information
             var model = new DetailClassView();
             var user = await GetCurrentUserAsync();
             var dateAndTime = DateTime.Now;
             var today = dateAndTime.Date;
             string Title = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Title;
             string Subject = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Subject;
+
+            //Creates needed information for LINQ Query
             List<Attendance> AttendanceList = new List<Attendance>();
             List<Attendance> AllAttendanceEverPerClass = new List<Attendance>();
             List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
             List<Student> AllStudents = await context.Student.ToListAsync();
-
             List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).ToListAsync();
 
             foreach (ClassMember ClassMember in ClassMemberList)
@@ -89,6 +91,7 @@ namespace Aristotle.Controllers
                 AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
             }
 
+            //Applies Data to View-Model
             model.Attendance = AttendanceList;
             model.ClassMember = ClassMemberList;
             model.DailyAverageAttendance = Math.Round(Utility.FindAverageAttendanceByClassForToday(AllAttendanceEver, ClassMemberList, today));
@@ -98,7 +101,8 @@ namespace Aristotle.Controllers
             model.Title = Title;
             model.ClassId = id;
             model.Subject = Subject;
-
+            
+            //Returns View Model with needed information to View
             return View(model);
         }
 
