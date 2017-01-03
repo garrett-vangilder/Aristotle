@@ -60,5 +60,10 @@ namespace Aristotle.Services
 
             return (numerator / denominator) * 100;
         }
+
+        internal static List<Student> FindTop5Students(List<ClassMember> ClassMemberList, DateTime today)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace Aristotle.ViewModels
         public int ClassId { get; set; }
         public List<Attendance> Attendance { get; set; }
         public List<Student> Student { get; set; }
+        public List<Student> Top5Attendance { get; set; }
         public List<ClassMember> ClassMember { get; set; }
         public List<int> AverageAttendanceByStudent { get; set; }
         public double DailyAverageAttendance { get; set; }
@@ -23,8 +24,6 @@ namespace Aristotle.ViewModels
         public DateTime DesiredDate { get; set; }
         public int NewDayDifferenceFromToday { get; set; }
         public int PreviousDayDifferenceFromToday { get; set; }
-
-
         public DetailClassView(ApplicationDbContext ctx, ApplicationUser user) : base(ctx, user) { }
         public DetailClassView() { }
     }

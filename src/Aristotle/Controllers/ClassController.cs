@@ -79,9 +79,10 @@ namespace Aristotle.Controllers
             List<Attendance> AttendanceList = new List<Attendance>();
             List<Attendance> AllAttendanceEverPerClass = new List<Attendance>();
             List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
-            List<Student> AllStudents = await context.Student.ToListAsync();
-            List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).ToListAsync();
+            List<Student> AllStudents = await context.Student.OrderBy(s =>s.LastName).ToListAsync();
+            List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).OrderBy(c => c.ClassMemberId).ToListAsync();
 
+            //Creates Changeable Attendance List in Class Detail View
             foreach (ClassMember ClassMember in ClassMemberList)
             {
                 Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == today).SingleOrDefaultAsync();
@@ -90,6 +91,9 @@ namespace Aristotle.Controllers
                 AttendanceList.Add(Attendance);
                 AllAttendanceEverPerClass.AddRange(AttendancePerStudentNotCurrent);
             }
+
+            //Creates Top 5 Attendance List
+            model.Top5Attendance = Utility.FindTop5Students(ClassMemberList, today); 
 
             //Applies Data to View-Model
             model.Attendance = AttendanceList;
@@ -118,8 +122,8 @@ namespace Aristotle.Controllers
             List<Attendance> AllAttendanceEverPerClass = new List<Attendance>();
             List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
             List<Student> AllStudents = await context.Student.ToListAsync();
-           
             List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).ToListAsync();
+
             foreach (ClassMember ClassMember in ClassMemberList)
             {
                 Attendance Attendance = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId && a.Date == DesiredDate).SingleOrDefaultAsync();
