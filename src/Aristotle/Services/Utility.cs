@@ -92,8 +92,8 @@ namespace Aristotle.Services
                     foreach(Student student in Top5)
                     {
                         ClassMember ComparisonClassMember = ClassMemberList.Where(ccm => ccm.StudentId == student.StudentId).SingleOrDefault();
-                        double ComparisonNumerator = AttendanceList.Where(a => a.ClassMemberId == cm.ClassMemberId && a.Date <= today && a.CurrentlyAbsent == false).Count();
-                        double ComparisonDenominator = AttendanceList.Where(a => a.ClassMemberId == cm.ClassMemberId && a.Date <= today).Count();
+                        double ComparisonNumerator = AttendanceList.Where(a => a.ClassMemberId == ComparisonClassMember.ClassMemberId && a.Date <= today && a.CurrentlyAbsent == false).Count();
+                        double ComparisonDenominator = AttendanceList.Where(a => a.ClassMemberId == ComparisonClassMember.ClassMemberId && a.Date <= today).Count();
 
                         var ComparisonStudent = new
                         {
@@ -105,6 +105,7 @@ namespace Aristotle.Services
                             Student StudentToRemove = Top5.Single(r => r.StudentId == ComparisonStudent.ID);
                             Top5.Remove(StudentToRemove);
                             Top5.Add(StudentInfo);
+                            break;
                         }
                     }
                 }
