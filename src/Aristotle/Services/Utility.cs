@@ -115,6 +115,50 @@ namespace Aristotle.Services
             return Top5.OrderBy( s => s.LastName).ToList();
         }
 
+        internal static List<Student> FindBottom5(List<Student> AllStudentList, List<ClassMember> ClassMemberList, List<Attendance> AttendanceList, DateTime today)
+        {
+            List<Student> Bottom5 = new List<Student>();
+
+            foreach (ClassMember cm in ClassMemberList)
+            {
+                Student StudentInfo = AllStudentList.Where(s => s.StudentId == cm.StudentId).SingleOrDefault();
+                double TotalAmountOfSchoolDays = AttendanceList.Where(a => a.ClassMemberId == cm.ClassMemberId && a.Date <= today).Count();
+                double DaysAttendedByClassMember = AttendanceList.Where(a => a.ClassMemberId == cm.ClassMemberId && a.Date <= today && a.CurrentlyAbsent == false).Count();
+                double DaysMissedByClassMember = AttendanceList.Where(a => a.ClassMemberId == cm.ClassMemberId && a.Date <= today && a.CurrentlyAbsent).Count();
+                double AttendanceRating = (DaysAttendedByClassMember / TotalAmountOfSchoolDays) * 100;
+
+                //If Bottom 5 is not yet populated
+                if (Bottom5.Count < 5)
+                {
+                    Bottom5.Add(StudentInfo);
+                }
+                else
+                {
+                    //Will loop through all students currently in the bottom 5 list
+                    foreach (Student student in Bottom5)
+                    {
+                        ClassMember ComparisonClassMember = ClassMemberList.Where(ccm => ccm.StudentId == student.StudentId).SingleOrDefault();
+                        double ComparisonNumerator = AttendanceList.Where(a => a.ClassMemberId == ComparisonClassMember.ClassMemberId && a.Date <= today && a.CurrentlyAbsent == false).Count();
+                        double ComparisonDenominator = AttendanceList.Where(a => a.ClassMemberId == ComparisonClassMember.ClassMemberId && a.Date <= today).Count();
+
+                        var ComparisonStudent = new
+                        {
+                            ID = student.StudentId,
+                            AttendanceRating = (ComparisonNumerator / ComparisonDenominator) * 100
+                        };
+                        if (ComparisonStudent.AttendanceRating > AttendanceRating)
+                        {
+                            Student StudentToRemove = Bottom5.Single(r => r.StudentId == ComparisonStudent.ID);
+                            Bottom5.Remove(StudentToRemove);
+                            Bottom5.Add(StudentInfo);
+                            break;
+                        }
+                    }
+                }
+            }
+                return Bottom5.OrderBy(s => s.LastName).ToList();
+        }
+
         public static double FindAttendanceForStudent(int Id, List<ClassMember> ClassMembers, List<Attendance> AllAttendance, DateTime today)
         {
             ClassMember DesiredClassMember = ClassMembers.Where(cm => cm.StudentId == Id).SingleOrDefault();
