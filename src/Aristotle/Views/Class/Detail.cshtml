@@ -1,5 +1,6 @@
 ﻿@model Aristotle.ViewModels.DetailClassView
 @using Aristotle.Models;
+@using Aristotle.Services;
 
 <h3>@Model.Title -> @Model.Subject</h3>
 
@@ -23,7 +24,7 @@
                             <tr>
                                 <td>@student.LastName</td>
                                 <td>@student.FirstName</td>
-                                <td></td>
+                                <td>@Utility.FindAttendanceForStudent(student.StudentId, Model.Attendance, Model.DesiredDate) %</td>
                            </tr>
                         }
                 </tbody>
@@ -98,7 +99,7 @@
             </thead>
             <tbody>
 
-                @foreach (ClassMember cm in Model.ClassMember)
+                @foreach (ClassMember cm in Model.ClassMember.OrderBy(c => c.StudentId))
                 {
 
                     @foreach (Student s in Model.Student)

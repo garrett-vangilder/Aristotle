@@ -114,5 +114,13 @@ namespace Aristotle.Services
 
             return Top5.OrderBy( s => s.LastName).ToList();
         }
+
+        public static double FindAttendanceForStudent(int Id, List<Attendance> AllAttendance, DateTime today)
+        {
+
+            return 0;
+        }
+
+
     }
 }
