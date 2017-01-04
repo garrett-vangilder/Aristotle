@@ -97,6 +97,7 @@ namespace Aristotle.Controllers
 
             //Applies Data to View-Model
             model.Attendance = AttendanceList;
+            model.AllAttendance = AllAttendanceEver;
             model.ClassMember = ClassMemberList;
             model.DailyAverageAttendance = Math.Round(Utility.FindAverageAttendanceByClassForToday(AllAttendanceEver, ClassMemberList, today));
             model.ClassAverageAttendancePercentage = Math.Round(Utility.FindAverageAttendanceByClass(AllAttendanceEver, ClassMemberList, today));
@@ -105,6 +106,7 @@ namespace Aristotle.Controllers
             model.Title = Title;
             model.ClassId = id;
             model.Subject = Subject;
+            model.DesiredDate = today;
             
             //Returns View Model with needed information to View
             return View(model);

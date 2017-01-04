@@ -13,6 +13,7 @@ namespace Aristotle.ViewModels
         public string Title { get; set; }
         public string Subject { get; set; }
         public int ClassId { get; set; }
+        public List<Attendance> AllAttendance { get; set; }
         public List<Attendance> Attendance { get; set; }
         public List<Student> Student { get; set; }
         public List<Student> Top5Attendance { get; set; }

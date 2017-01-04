@@ -24,7 +24,7 @@
                             <tr>
                                 <td>@student.LastName</td>
                                 <td>@student.FirstName</td>
-                                <td>@Utility.FindAttendanceForStudent(student.StudentId, Model.Attendance, Model.DesiredDate) %</td>
+                                <td>@Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate) %</td>
                            </tr>
                         }
                 </tbody>
@@ -99,7 +99,7 @@
             </thead>
             <tbody>
 
-                @foreach (ClassMember cm in Model.ClassMember.OrderBy(c => c.StudentId))
+                @foreach (ClassMember cm in Model.ClassMember)
                 {
 
                     @foreach (Student s in Model.Student)

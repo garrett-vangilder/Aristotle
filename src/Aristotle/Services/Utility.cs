@@ -115,10 +115,14 @@ namespace Aristotle.Services
             return Top5.OrderBy( s => s.LastName).ToList();
         }
 
-        public static double FindAttendanceForStudent(int Id, List<Attendance> AllAttendance, DateTime today)
+        public static double FindAttendanceForStudent(int Id, List<ClassMember> ClassMembers, List<Attendance> AllAttendance, DateTime today)
         {
+            ClassMember DesiredClassMember = ClassMembers.Where(cm => cm.StudentId == Id).SingleOrDefault();
 
-            return 0;
+            double DaysAttended = AllAttendance.Where(a => a.ClassMemberId == DesiredClassMember.ClassMemberId && a.Date <= today && a.CurrentlyAbsent == false).Count();
+            double AvailableDays = AllAttendance.Where(a => a.ClassMemberId == DesiredClassMember.ClassMemberId && a.Date <= today).Count();
+
+            return (DaysAttended / AvailableDays) * 100;
         }
 
 
