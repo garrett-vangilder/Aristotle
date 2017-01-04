@@ -42,12 +42,14 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr>
-                        <td>@Model.DailyAverageAttendance %</td>
-                        <td>@Model.ClassAverageAttendancePercentage %</td>
-                        <td>@Model.AverageAttendancePercentage %</td>
-
-                    </tr>
+                    @foreach (Student student in Model.Bottom5Attendance)
+                    {
+                        <tr>
+                            <td>@student.LastName</td>
+                            <td>@student.FirstName</td>
+                            <td>@Math.Floor(Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate)) %</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

@@ -93,7 +93,8 @@ namespace Aristotle.Controllers
             }
 
             //Creates Top 5 Attendance List
-            model.Top5Attendance = Utility.FindTop5Students(AllStudents, ClassMemberList, AllAttendanceEver, today); 
+            model.Top5Attendance = Utility.FindTop5Students(AllStudents, ClassMemberList, AllAttendanceEver, today);
+            model.Bottom5Attendance = Utility.FindBottom5(AllStudents, ClassMemberList, AllAttendanceEver, today); 
 
             //Applies Data to View-Model
             model.Attendance = AttendanceList;

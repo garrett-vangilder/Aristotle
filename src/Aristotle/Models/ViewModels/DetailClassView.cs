@@ -17,6 +17,7 @@ namespace Aristotle.ViewModels
         public List<Attendance> Attendance { get; set; }
         public List<Student> Student { get; set; }
         public List<Student> Top5Attendance { get; set; }
+        public List<Student> Bottom5Attendance { get; set; }
         public List<ClassMember> ClassMember { get; set; }
         public List<int> AverageAttendanceByStudent { get; set; }
         public double DailyAverageAttendance { get; set; }
