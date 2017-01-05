@@ -150,6 +150,12 @@ namespace Aristotle.Controllers
             model.Subject = Subject;
             model.DesiredDate = DesiredDate;
 
+            if (dayAway == 0)
+            {
+                return RedirectToAction("Detail", new RouteValueDictionary(
+                    new { controller = "Class", action = "Detail", Id = id }));
+            }
+
             return View(model);
         }
 
