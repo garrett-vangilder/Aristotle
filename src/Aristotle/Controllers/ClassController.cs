@@ -142,6 +142,8 @@ namespace Aristotle.Controllers
                 if (Attendance == null)
                 {
                    Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = DesiredDate };
+                    context.Add(Attendance);
+                    await context.SaveChangesAsync();
                 }
                 List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
                 AttendanceList.Add(Attendance);
