@@ -119,6 +119,15 @@ namespace Aristotle.Controllers
             var user = await GetCurrentUserAsync();
             var dateAndTime = DateTime.Now.AddDays(dayAway);
             var DesiredDate = dateAndTime.Date;
+            if (Convert.ToString(DesiredDate.DayOfWeek) == "Saturday" || Convert.ToString(DesiredDate.DayOfWeek) == "Sunday")
+            {
+                if (dayAway > 0)
+                {
+                    dayAway++;
+                    return RedirectToAction("Update", new RouteValueDictionary(
+                        new { controller = "Class", action = "Update", Id = id, dayAway = dayAway}));
+                }
+            }
             string Title = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Title;
             string Subject = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Subject;
             List<Attendance> AttendanceList = new List<Attendance>();
