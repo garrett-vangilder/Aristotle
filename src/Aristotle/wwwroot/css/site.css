@@ -58,7 +58,7 @@ textarea {
 }
 
 .navbar-custom .navbar-header .navbar-toggle {
-  color: #005A9C;
+  color: orange;
   font-weight: 600;
   text-transform: uppercase;
   font-size: 12px; }
@@ -80,7 +80,7 @@ textarea {
 
   .navbar-custom .navbar-brand:hover,
   .navbar-custom .navbar-brand:focus {
-    color: #005A9C; }
+    color:orange; }
 
   .navbar-custom .nav li a {
     color: black;
@@ -88,7 +88,7 @@ textarea {
 
   .navbar-custom .nav li a:hover,
   .navbar-custom .nav li a:focus {
-    color: #005A9C; } }
+    color: orange; } }
 @media only screen and (min-width: 1170px) {
   .navbar-custom {
     -webkit-transition: background-color 0.3s;
@@ -106,7 +106,6 @@ textarea {
     /* when the user scrolls down, we hide the header right above the viewport */
     position: fixed;
     top: -61px;
-    background-color: #9c4200;
     border-bottom: 1px solid #005A9C;
     -webkit-transition: -webkit-transform 0.3s;
     -moz-transition: -moz-transform 0.3s;
@@ -153,7 +152,6 @@ textarea {
     padding: 150px 0; } }
 .intro-header .site-heading,
 .intro-header .page-heading {
-  color: black;
   text-align: center; }
 
 .intro-header .site-heading h1,
@@ -197,4 +195,11 @@ textarea {
 
 .intro-header .post-heading .meta a {
   color: #005A9C; }
+
+  span.glyphicon-cloud,
+  span.glyphicon-usd,
+  span.glyphicon-ok,
+  span.glyphicon-fire {
+    font-size: 3.5rem;
+}
 
