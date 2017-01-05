@@ -9,7 +9,16 @@
             <thead>
                 <tr>
                     <td>
-                        <a asp-controller="Class" asp-action="Update" asp-route-dayAway="@Model.NewDayDifferenceFromToday" asp-route-id="@Model.ClassId"> << @DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek</a>
+                        <a asp-controller="Class" asp-action="Update" asp-route-dayAway="@Model.NewDayDifferenceFromToday" asp-route-id="@Model.ClassId"> << 
+                        @if (Convert.ToString(DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek) == "Saturday")
+                        {
+                            Model.NewDayDifferenceFromToday++;
+                            @if (Convert.ToString(DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek) == "Sunday")
+                            {
+                                Model.NewDayDifferenceFromToday++;
+                            }
+                        }
+                        @DateTime.Today.AddDays(Model.NewDayDifferenceFromToday).DayOfWeek</a>
                     </td>
                     <td colspan="2" class="text-center">
 
