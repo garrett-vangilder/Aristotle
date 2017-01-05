@@ -39,51 +39,49 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            @foreach (ClassMember cm in Model.ClassMember)
+                            @if (Model.ClassMember.Count() > 0)
                             {
-                                @if (cm.ClassId == c.ClassId)
+                                @foreach (Student s in Model.StudentList.OrderBy(s => s.LastName))
+                            {
+                                    @foreach (ClassMember cm in Model.ClassMember)
                                 {
-                                    @foreach (Student s in Model.StudentList)
+                                        @if (cm.ClassId == c.ClassId)
                                     {
-                                        @if (s.StudentId == cm.StudentId)
+                                            @if (s.StudentId == cm.StudentId)
                                         {
-                                            <tr class="text-center">
-                                                <td>@s.LastName</td>
-                                                <td>@s.FirstName</td>
-                                                <td>@s.Grade</td>
+                                                <tr class="text-center">
+                                                    <td>@s.LastName</td>
+                                                    <td>@s.FirstName</td>
+                                                    <td>@s.Grade</td>
 
-                                                @for (int i = 0; i < Model.Attendance.Count; i++)
-                                                {
-                                                    @if (Model.Attendance[i].ClassMemberId == cm.ClassMemberId)
+                                                    @for (int i = 0; i < Model.Attendance.Count; i++)
                                                     {
-                                                        @if (Model.Attendance[i].CurrentlyAbsent)
+                                                        @if (Model.Attendance[i].ClassMemberId == cm.ClassMemberId)
                                                         {
-                                                            <td>X</td>
+                                                            @if (Model.Attendance[i].CurrentlyAbsent)
+                                                            {
+                                                                <td><span class="text-danger glyphicon glyphicon-remove"></span></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
                                                         }
-                                                        else
-                                                        { 
-                                                            <td></td>
-                                                        }
-                                                        @*<td>
-                                                            @Html.HiddenFor(x => x.Attendance[i].AttendanceId)
-                                                            <input type="checkbox" asp-for="Attendance[i].CurrentlyAbsent" class="form-control" />
-                                                        </td>*@
                                                     }
-                                                }
-
-                                            </tr>
+                                                </tr>
+                                            }
                                         }
                                     }
                                 }
-                                else if (Model.ClassMember == null)
-                                {
-                                    <tr>
-                                        <td colspan="4" class="text-center text-danger">Add a Student to begin data collection</td>
-                                    </tr>
-                                    break;
-                                }
                             }
+                            else if (Model.ClassMember == null)
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-danger">Add a Student to begin data collection</td>
+                                </tr>
+                                break;
+                            }
+
                         </tbody>
                     </table>
                 </div>

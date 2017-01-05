@@ -16,8 +16,8 @@
                         <td colspan="3">Best Attendance for Class</td>
                     </tr>
                     <tr>
-                        <td>First Name</td>
                         <td>Last Name</td>
+                        <td>First Name</td>
                         <td>Average Attendance</td>
                     </tr>
                 </thead>
@@ -27,7 +27,7 @@
                             <tr>
                                 <td>@student.LastName</td>
                                 <td>@student.FirstName</td>
-                                <td>@Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate) %</td>
+                                <td>@Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate)%</td>
                            </tr>
                         }
                 </tbody>
@@ -39,8 +39,8 @@
                         <td colspan="3">Needs Improvement</td>
                     </tr>
                     <tr>
-                        <td>First Name</td>
                         <td>Last Name</td>
+                        <td>First Name</td>
                         <td>Average Attendance</td>
                     </tr>
                 </thead>
@@ -50,7 +50,7 @@
                         <tr>
                             <td>@student.LastName</td>
                             <td>@student.FirstName</td>
-                            <td>@Math.Floor(Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate)) %</td>
+                            <td>@Math.Floor(Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate))%</td>
                         </tr>
                     }
                 </tbody>
@@ -70,9 +70,9 @@
                 </thead>
                 <tbody class="text-center">
                     <tr>
-                        <td>@Model.DailyAverageAttendance %</td>
-                        <td>@Model.ClassAverageAttendancePercentage %</td>
-                        <td>@Model.AverageAttendancePercentage %</td>
+                        <td>@Model.DailyAverageAttendance%</td>
+                        <td>@Model.ClassAverageAttendancePercentage%</td>
+                        <td>@Model.AverageAttendancePercentage%</td>
 
                     </tr>
                 </tbody>
@@ -88,13 +88,16 @@
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <td> 
+                    <td class="text-center"> 
                     <a asp-controller="Class" asp-action="Update" asp-route-dayAway="1" asp-route-id="@Model.ClassId"> << @DateTime.Today.AddDays(1).DayOfWeek</a></td>
                     <td colspan="2" class="text-center">
-                      
-                        @DateTime.Today.DayOfWeek <a asp-controller="Attendance" asp-action="Update" asp-route-id="@Model.ClassId"><button class="profileButton btn btn-info">Update Attendance</button></a>
+                        <strong>@DateTime.Today.DayOfWeek
+                            <a asp-controller="Attendance" asp-action="Update" asp-route-id="@Model.ClassId"><button class="profileButton btn btn-info">Update <span class="glyphicon glyphicon-check"></span></button></a>
+                        </strong>
                     </td>
-                    <td> <a asp-controller="Class" asp-action="Update"  asp-route-dayAway="-1" asp-route-id="@Model.ClassId">  @DateTime.Today.AddDays(-1).DayOfWeek >> </a></td>
+                    <td class="text-center"> 
+                        <a asp-controller="Class" asp-action="Update"  asp-route-dayAway="-1" asp-route-id="@Model.ClassId">  @DateTime.Today.AddDays(-1).DayOfWeek >> </a>
+                    </td>
 
                 </tr>
                 <tr class="text-center">
@@ -106,10 +109,9 @@
             </thead>
             <tbody>
 
-                @foreach (ClassMember cm in Model.ClassMember)
-                {
-
-                    @foreach (Student s in Model.Student)
+                    @foreach (Student s in Model.Student.OrderBy(s => s.LastName))
+                    {
+                    @foreach (ClassMember cm in Model.ClassMember)
                     {
                         @if (s.StudentId == cm.StudentId)
                         {
