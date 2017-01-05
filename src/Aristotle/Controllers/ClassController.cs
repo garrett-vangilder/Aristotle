@@ -153,6 +153,27 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
+        public ActionResult SchoolAttendanceChart(int id)
+        {
+            List<String> Last10SchoolDays = new List<String>();
+            var dateAndTime = DateTime.Now;
+            var today = dateAndTime.Date;
+            for (var i = 0; i <= 14; i++)
+            {
+                string desiredDay = Convert.ToString(today.AddDays(-i).Date);
+                Last10SchoolDays.Insert(0, desiredDay);
+            }
+            if (Last10SchoolDays.Count() <= 0)
+            {
+                Last10SchoolDays.Add(Convert.ToString(today.Day));
+            }
+            ViewBag.ListOfDays = Last10SchoolDays;
+
+            var result = Json(Last10SchoolDays);
+            return result;
+
+        }
+
 
         public IActionResult Error()
         {
