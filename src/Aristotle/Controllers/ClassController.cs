@@ -119,6 +119,15 @@ namespace Aristotle.Controllers
             var user = await GetCurrentUserAsync();
             var dateAndTime = DateTime.Now.AddDays(dayAway);
             var DesiredDate = dateAndTime.Date;
+            if (Convert.ToString(DesiredDate.DayOfWeek) == "Saturday" || Convert.ToString(DesiredDate.DayOfWeek) == "Sunday")
+            {
+                if (dayAway > 0)
+                {
+                    dayAway++;
+                    return RedirectToAction("Update", new RouteValueDictionary(
+                        new { controller = "Class", action = "Update", Id = id, dayAway = dayAway}));
+                }
+            }
             string Title = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Title;
             string Subject = context.Class.Where(c => c.ClassId == id).SingleOrDefault().Subject;
             List<Attendance> AttendanceList = new List<Attendance>();
@@ -133,6 +142,8 @@ namespace Aristotle.Controllers
                 if (Attendance == null)
                 {
                    Attendance = new Attendance { ClassMemberId = ClassMember.ClassMemberId, CurrentlyAbsent = false, Date = DesiredDate };
+                    context.Add(Attendance);
+                    await context.SaveChangesAsync();
                 }
                 List<Attendance> AttendancePerStudentNotCurrent = await context.Attendance.Where(a => a.ClassMemberId == ClassMember.ClassMemberId).ToListAsync();
                 AttendanceList.Add(Attendance);
@@ -149,6 +160,12 @@ namespace Aristotle.Controllers
             model.ClassId = id;
             model.Subject = Subject;
             model.DesiredDate = DesiredDate;
+
+            if (dayAway == 0)
+            {
+                return RedirectToAction("Detail", new RouteValueDictionary(
+                    new { controller = "Class", action = "Detail", Id = id }));
+            }
 
             return View(model);
         }
