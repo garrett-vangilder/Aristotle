@@ -155,7 +155,8 @@ namespace Aristotle.Controllers
 
         public async Task<ActionResult> SchoolAttendanceChart()
         {
-            int id = Convert.ToInt16(RouteData.Values["id"]);
+
+            int id = Convert.ToInt32(RouteData.Values["id"]);      
             List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
             List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == id).OrderBy(c => c.ClassMemberId).ToListAsync();
 
