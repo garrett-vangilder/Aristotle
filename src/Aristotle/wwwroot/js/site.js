@@ -1,18 +1,11 @@
-﻿// Write your Javascript code.
-
-
-function getValueAtIndex(index) {
-    var str = window.location.href; 
-    //return str;
+﻿function getValueAtIndex(index) {
+    let str = window.location.href; 
     return str.split("/")[index];
 }
-console.log(getValueAtIndex(5));
-
-let url = window.location.href;
 
 if (getValueAtIndex(5)) {
     var classId = getValueAtIndex(5);
-    $.get(`/Class/SchoolAttendanceChart/${classId}`, function (response) {
+    $.get(`/Class/SchoolAttendanceChart/${classId}`,  (response) => {
         console.log(response);
         var data = {
             labels: response[0],
@@ -42,9 +35,9 @@ if (getValueAtIndex(5)) {
             ]
         };
         //Detail Class View Chart
-        var ctx = $("#ClassDetail");
+        const ctx = $("#ClassDetail");
 
-        var myLineChart = Chart.Line(ctx, {
+        let myLineChart = Chart.Line(ctx, {
             data: data,
             options: {
                 scales: {
@@ -56,17 +49,5 @@ if (getValueAtIndex(5)) {
                 }
             }
         });
-
-        return data;
     });
-
 }
-
-
-
-
-
-
-
-
-
