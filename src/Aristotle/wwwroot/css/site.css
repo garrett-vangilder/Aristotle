@@ -63,7 +63,9 @@ textarea {
   text-transform: uppercase;
   font-size: 12px; }
 
-.navbar-custom .nav li a {
+.navbar-custom .nav li a,
+.navbar-custom .nav li button
+ {
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 600;
@@ -82,12 +84,15 @@ textarea {
   .navbar-custom .navbar-brand:focus {
     color:orange; }
 
-  .navbar-custom .nav li a {
+  .navbar-custom .nav li a,
+  .navbar-custom .nav li button {
     color: black;
     padding: 20px; }
 
   .navbar-custom .nav li a:hover,
-  .navbar-custom .nav li a:focus {
+  .navbar-custom .nav li a:focus,
+  .navbar-custom .nav li button:hover,
+  .navbar-custom .nav li button:focus {
     color: orange; } }
 @media only screen and (min-width: 1170px) {
   .navbar-custom {
