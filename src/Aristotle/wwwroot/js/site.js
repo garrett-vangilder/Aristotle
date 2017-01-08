@@ -70,7 +70,7 @@ if (getValueAtIndex(3) === "Profile") {
                         data: response[1]
                     },
                     {
-                        label: "Average Attendance",
+                        label: "Yearly Average Attendance",
                         backgroundColor: "rgba(255,99,132,0.2)",
                         borderColor: "rgba(255,99,132,1)",
                         pointBackgroundColor: "rgba(255,99,132,1)",
