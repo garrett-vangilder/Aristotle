@@ -9,6 +9,7 @@ using Aristotle.Data;
 using Aristotle.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Aristotle.Services;
 
 namespace Aristotle.Controllers
 {
@@ -74,6 +75,39 @@ namespace Aristotle.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> SchoolAttendanceChart()
+        {
+            var user = await GetCurrentUserAsync();
+            var dateAndTime = DateTime.Now;
+            var today = dateAndTime.Date;
+
+            List<Class> ClassList = await context.Class.Where(c => c.ApplicationUserId == user.Id).ToListAsync();
+            List<Attendance> AllAttendanceEver = await context.Attendance.ToListAsync();
+
+            List<string> ClassTitles = new List<string>();
+            List<double> TodaysAttendance = new List<double>();
+            List<double> AverageAttendance = new List<double>();
+
+            foreach(Class classInfo in ClassList)
+            {
+                List<ClassMember> ClassMemberList = await context.ClassMember.Where(c => c.ClassId == classInfo.ClassId).OrderBy(c => c.ClassMemberId).ToListAsync();
+                double AverageAttendanceForToday = Math.Round(Utility.FindAverageAttendanceByClassForToday(AllAttendanceEver, ClassMemberList, today));
+                double AverageAttendanceForAllDays = Math.Round(Utility.FindAverageAttendanceByClass(AllAttendanceEver, ClassMemberList, today));
+
+                ClassTitles.Add(classInfo.Title);
+                TodaysAttendance.Add(AverageAttendanceForToday);
+                AverageAttendance.Add(AverageAttendanceForAllDays);
+            }
+
+
+            List<object> dataForChart = new List<object>();
+            dataForChart.Insert(0, ClassTitles);
+            dataForChart.Insert(1, TodaysAttendance);
+            dataForChart.Insert(2, AverageAttendance);
+
+            var result = Json(dataForChart);
+            return result;
+        }
 
 
         public IActionResult Error()

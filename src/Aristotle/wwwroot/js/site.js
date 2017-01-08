@@ -51,3 +51,50 @@ if (getValueAtIndex(5)) {
         });
     });
 }
+
+if (getValueAtIndex(3) === "Profile") {
+    console.log("Here comes a chart");
+    $.get(`/Profile/SchoolAttendanceChart/`, (response) => {
+        console.log(response);
+        var data = {
+            labels: response[0],
+            datasets: [
+                    {
+                        label: "Today's Attendance",
+                        backgroundColor: "rgba(179,181,198,0.2)",
+                        borderColor: "rgba(179,181,198,1)",
+                        pointBackgroundColor: "rgba(179,181,198,1)",
+                        pointBorderColor: "#fff",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(179,181,198,1)",
+                        data: response[1]
+                    },
+                    {
+                        label: "Average Attendance",
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        pointBackgroundColor: "rgba(255,99,132,1)",
+                        pointBorderColor: "#fff",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(255,99,132,1)",
+                        data: response[2]
+                    }
+                ]
+        };
+        //Detail Class View Chart
+        const indexChart = $("#indexChart");
+
+        var myRadarChart = new Chart(indexChart, {
+            type: 'radar',
+            data: data,
+            options: {
+                scale: {
+                    reverse: false,
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+}
