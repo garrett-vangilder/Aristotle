@@ -27,7 +27,7 @@
                             <tr>
                                 <td>@student.LastName</td>
                                 <td>@student.FirstName</td>
-                                <td>@Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate)%</td>
+                                <td>@Math.Floor(Utility.FindAttendanceForStudent(student.StudentId, Model.ClassMember, Model.AllAttendance, Model.DesiredDate))%</td>
                            </tr>
                         }
                 </tbody>
