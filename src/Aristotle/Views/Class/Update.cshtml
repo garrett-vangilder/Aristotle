@@ -43,11 +43,9 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (ClassMember cm in Model.ClassMember)
+                @foreach (Student s in Model.Student.OrderBy(s => s.LastName))
                 {
-
-                    @foreach (Student s in Model.Student)
+                    @foreach (ClassMember cm in Model.ClassMember)
                     {
                         @if (s.StudentId == cm.StudentId)
                         {
